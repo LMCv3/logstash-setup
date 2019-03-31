@@ -67,6 +67,8 @@ done
 
 echo "}" >> /etc/logstash/conf.d/02-apache-input.conf
 mv 10-apache-filter.conf /etc/logstash/conf.d/
+
+# Build AWS cres conf file
 echo "output {" > /etc/logstash/conf.d/20-apache-es.conf
 echo " stdout {}" >> /etc/logstash/conf.d/20-apache-es.conf
 echo " amazon_es {" >> /etc/logstash/conf.d/20-apache-es.conf
