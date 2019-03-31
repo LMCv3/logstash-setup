@@ -8,6 +8,15 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
+# Quick RAM availability check
+memoryavail=`free -m | awk 'NR==2{printf $4}'`
+if [ "$memoryavail" -lt "64" ]
+then
+	echo "Looking short on RAM - better reboot before setting up, it will fail otherwise."
+	exit 1
+fi
+
+
 echo -n "AWS Access Key ID: "
 read $awskey
 echo -n "AWS Secret Access Key: "
