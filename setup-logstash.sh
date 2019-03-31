@@ -1,12 +1,26 @@
 #!/bin/bash
 # Set up Logstash for ElasticSearch setups
 # TODO: Config to allow for lower memory usage
-# TODO: Allow for AWS Creds / endpoint entry
 
 # Check to see if we are root
 if [ "$(id -u)" != "0" ]; then
 	echo "You'll need to be root for this, though..."
 	exit 1
+fi
+
+echo "AWS Access Key ID: "
+read $awskey
+echo "AWS Secret Access Key: "
+read $awssecret
+echo "Default region name [us-east-1]: "
+read $awsregion
+echo "ElasticSearch endpoint URL (include https:// and / at the end): "
+read $elastihost
+
+# Default region, if not entered:
+if [ -z "$awsregion" ]
+then
+	awsregion="us-east-1"
 fi
 
 # Add ElasticSearch Key and Logstash Repo
@@ -53,4 +67,14 @@ done
 
 echo "}" >> /etc/logstash/conf.d/02-apache-input.conf
 mv 10-apache-filter.conf /etc/logstash/conf.d/
-echo 
+echo "output {" > /etc/logstash/conf.d/20-apache-es.conf
+echo " stdout {}" >> /etc/logstash/conf.d/20-apache-es.conf
+echo " amazon_es {" >> /etc/logstash/conf.d/20-apache-es.conf
+echo "   region => \"$awsregion\"" >> /etc/logstash/conf.d/20-apache-es.conf
+echo "   index => \"apache-%{+YYYY.MM.dd}\"" >> /etc/logstash/conf.d/20-apache-es.conf
+echo "   document_type => \"apache_logs\"" >> /etc/logstash/conf.d/20-apache-es.conf
+echo "   hosts => [\"$elastihost\"]" >> /etc/logstash/conf.d/20-apache-es.conf
+echo "   aws_access_key_id => '$awskey'" >> /etc/logstash/conf.d/20-apache-es.conf
+echo "   aws_secret_access_key => '$awssecret'" >> /etc/logstash/conf.d/20-apache-es.conf
+echo " }" >> /etc/logstash/conf.d/20-apache-es.conf
+echo "}" >> /etc/logstash/conf.d/20-apache-es.conf
