@@ -35,6 +35,13 @@ apt-get install openjdk-8-jdk logstash
 # Install AWS ElasticSearch Plugin
 echo "Installing AWS ElasticSearch Plugin..."
 /opt/logstash/bin/logstash-plugin install logstash-output-amazon_es
+if [ $? -eq 0 ]
+then
+	echo "It worked!"
+else
+	echo "Plugin installation didn't work as planned. Setup incomplete. Please try again after a reboot."
+	exit $?
+fi
 
 # Get list of access files
 accessarray=()
