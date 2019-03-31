@@ -8,13 +8,13 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
-echo "AWS Access Key ID: "
+echo -n "AWS Access Key ID: "
 read $awskey
-echo "AWS Secret Access Key: "
+echo -n "AWS Secret Access Key: "
 read $awssecret
-echo "Default region name [us-east-1]: "
+echo -n "Default region name [us-east-1]: "
 read $awsregion
-echo "ElasticSearch endpoint URL (include https:// and / at the end): "
+echo -n "ElasticSearch endpoint URL (include https:// and / at the end): "
 read $elastihost
 
 # Default region, if not entered:
