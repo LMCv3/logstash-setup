@@ -80,3 +80,13 @@ echo "   aws_access_key_id => '$awskey'" >> /etc/logstash/conf.d/20-apache-es.co
 echo "   aws_secret_access_key => '$awssecret'" >> /etc/logstash/conf.d/20-apache-es.conf
 echo " }" >> /etc/logstash/conf.d/20-apache-es.conf
 echo "}" >> /etc/logstash/conf.d/20-apache-es.conf
+
+# Set a reasonable heap size
+echo "Setting heap size to 256M-512M..."
+echo "environment:
+        - LS_JAVA_OPTS=-Xmx512M -Xms256M" > /etc/logstash/logstash.yml
+
+# Restart logstash
+echo "Setup finished! Restarting Logstash..."
+service logstash stop
+service logstash start
