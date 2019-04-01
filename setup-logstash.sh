@@ -42,7 +42,8 @@ apt-get install openjdk-8-jdk logstash
 
 # Install AWS ElasticSearch Plugin
 echo "Installing AWS ElasticSearch Plugin..."
-/opt/logstash/bin/logstash-plugin install logstash-output-amazon_es
+# /opt/logstash/bin/logstash-plugin install logstash-output-amazon_es
+/opt/logstash/bin/logstash-plugin install logstash-output-amazon_es-6.4.1-x86_64-linux.gem
 if [ $? -eq 0 ]
 then
 	echo "It worked!"
