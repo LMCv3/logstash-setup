@@ -33,8 +33,9 @@ fi
 
 # Add ElasticSearch Key and Logstash Repo
 echo "Importing Logstash key & updating package list..."
-wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-echo "deb https://packages.elastic.co/logstash/2.4/debian stable main" > /etc/apt/sources.list.d/logstash.list
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+apt-get install apt-transport-https -y
+echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" > /etc/apt/sources.list.d/logstash.list
 apt-get update
 
 # Install OpenJDK and Logstash
@@ -42,8 +43,7 @@ apt-get install openjdk-8-jdk logstash
 
 # Install AWS ElasticSearch Plugin
 echo "Installing AWS ElasticSearch Plugin..."
-# /opt/logstash/bin/logstash-plugin install logstash-output-amazon_es
-/opt/logstash/bin/logstash-plugin install logstash-output-amazon_es-6.4.1-x86_64-linux.gem
+/usr/share/logstash/bin/logstash-plugin install logstash-output-amazon_es
 if [ $? -eq 0 ]
 then
 	echo "It worked!"
