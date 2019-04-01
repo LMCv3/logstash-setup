@@ -1,6 +1,5 @@
 #!/bin/bash
 # Set up Logstash for ElasticSearch setups
-# TODO: Config to allow for lower memory usage
 
 # Check to see if we are root
 if [ "$(id -u)" != "0" ]; then
@@ -90,7 +89,6 @@ echo " stdout {}" >> /etc/logstash/conf.d/20-apache-es.conf
 echo " amazon_es {" >> /etc/logstash/conf.d/20-apache-es.conf
 echo "   region => \"$awsregion\"" >> /etc/logstash/conf.d/20-apache-es.conf
 echo "   index => \"apache-%{+YYYY.MM.dd}\"" >> /etc/logstash/conf.d/20-apache-es.conf
-echo "   document_type => \"apache_logs\"" >> /etc/logstash/conf.d/20-apache-es.conf
 echo "   hosts => [\"$elastihost\"]" >> /etc/logstash/conf.d/20-apache-es.conf
 echo "   aws_access_key_id => '$awskey'" >> /etc/logstash/conf.d/20-apache-es.conf
 echo "   aws_secret_access_key => '$awssecret'" >> /etc/logstash/conf.d/20-apache-es.conf
